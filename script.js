@@ -374,3 +374,13 @@ setInterval(() => {
         updateDisplay();
     }
 }, 100);
+// Open Credits Modal
+const openCreditsBtn = document.getElementById("open-credits-btn");
+const creditsModal = document.getElementById("credits-modal");
+
+if (openCreditsBtn && creditsModal) {
+    openCreditsBtn.addEventListener("click", () => {
+        creditsModal.style.display = "block";
+    });
+}
+
