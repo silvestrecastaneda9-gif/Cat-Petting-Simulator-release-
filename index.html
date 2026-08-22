@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Petting Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:,">
+</head>
+<body id="page-body">
+
+    <!-- Floating Side Buttons -->
+    <div class="side-nav">
+        <button class="nav-btn" onclick="toggleModal('shop-modal')">🛍️ Shop</button>
+        <button class="nav-btn" onclick="toggleModal('calendar-modal')">📅 Calendar</button>
+        <button class="nav-btn" onclick="toggleModal('booster-modal')">🧪 Boosters</button>
+        <button class="nav-btn" onclick="toggleModal('rebirth-modal')">✨ Rebirth</button>
+        <button class="nav-btn" onclick="toggleModal('guide-modal')">📖 Guide & Info</button>
+        <button class="nav-btn coming-soon-btn" onclick="toggleModal('coming-soon-modal')">🚀 v1.1 (Soon)</button>
+        <button class="nav-btn" onclick="toggleModal('settings-modal')">⚙️ Settings</button>
+    </div>
+
+    <div class="game-container">
+        <h1>Cat Petting Simulator</h1>
+        <div id="cat-title" class="cat-title">Level 1: Cozy Kitten</div>
+        
+        <div class="score-board">
+            <p>Player: <span id="display-player-name" style="color:#0984e3; font-weight:bold;">Cat Lover</span></p>
+            <p>Purr Points: <span id="score">0</span></p>
+            <p class="pps">Per Second: <span id="pps">0</span> <small>(+<span id="ach-bonus">0</span>% Ach Bonus)</small></p>
+            <p class="prestige-info">Rebirths: <span id="rebirth-count">0</span>/<span id="max-rebirth-target">5</span> | Gato Shards: <span id="shard-count">0</span> 💎</p>
+            <p id="weather-banner" style="font-size: 0.85rem; color: #00b894; margin-top: 5px; font-weight: bold;">🌤️ Weather: Clear Skies (Normal)</p>
+        </div>
+
+        <div class="cat-wrapper" id="cat-wrapper">
+            <div id="cat-container" class="cat-display">
+                <div class="cat" id="cat-emoji">🐱</div>
+            </div>
+            <div id="floating-text-container"></div>
+        </div>
+
+        <p id="cat-message">Pet the kitty!</p>
+        <div id="active-boosters" class="active-boosters-banner"></div>
+    </div>
+
+    <!-- Remodeled Clean Shop Modal -->
+    <div id="shop-modal" class="modal">
+        <div class="modal-content wide-modal">
+            <span class="close-btn" onclick="toggleModal('shop-modal')">&times;</span>
+            
+            <!-- Miga Shopkeeper Header Banner -->
+            <div class="shopkeeper-header">
+                <img src="miga.png" alt="Miga" class="shopkeeper-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="shopkeeper-avatar-fallback" style="display:none;">🐱👜</div>
+                <div class="shopkeeper-dialogue">
+                    <h3>Miga's Cat Emporium</h3>
+                    <p id="miga-greeting">"Welcome to my shop, human! Got fish?"</p>
+                </div>
+            </div>
+            
+            <!-- Clean Tab Navigation -->
+            <div class="shop-tabs">
+                <button id="btn-tab-idle" class="shop-tab-btn active-tab" onclick="switchShopTab('idle')">🧶 Idle PPS</button>
+                <button id="btn-tab-click" class="shop-tab-btn" onclick="switchShopTab('click')">🐾 Click Power</button>
+                <button id="btn-tab-shards" class="shop-tab-btn" onclick="switchShopTab('shards')">💎 Shard Bazaar</button>
+            </div>
+
+            <!-- Tab 1: Idle PPS Upgrades -->
+            <div id="tab-idle" class="shop-tab-content">
+                <div class="shop-grid">
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Feather Toy</strong><br><small>+1 PPS</small></div>
+                        <div class="upgrade-action"><span id="feather-cost">15</span> PP<br><small>Owned: <span id="feather-count">0</span></small><button onclick="buyUpgrade('feather')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Cozy Bed</strong><br><small>+5 PPS</small></div>
+                        <div class="upgrade-action"><span id="bed-cost">100</span> PP<br><small>Owned: <span id="bed-count">0</span></small><button onclick="buyUpgrade('bed')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Catnip</strong><br><small>+20 PPS</small></div>
+                        <div class="upgrade-action"><span id="catnip-cost">500</span> PP<br><small>Owned: <span id="catnip-count">0</span></small><button onclick="buyUpgrade('catnip')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Laser Pointer</strong><br><small>+100 PPS</small></div>
+                        <div class="upgrade-action"><span id="laser-cost">2500</span> PP<br><small>Owned: <span id="laser-count">0</span></small><button onclick="buyUpgrade('laser')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Automatic Feeder</strong><br><small>+500 PPS</small></div>
+                        <div class="upgrade-action"><span id="feeder-cost">12000</span> PP<br><small>Owned: <span id="feeder-count">0</span></small><button onclick="buyUpgrade('feeder')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Cat Tree Palace</strong><br><small>+2500 PPS</small></div>
+                        <div class="upgrade-action"><span id="palace-cost">60000</span> PP<br><small>Owned: <span id="palace-count">0</span></small><button onclick="buyUpgrade('palace')">Buy</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Click Power Upgrades -->
+            <div id="tab-click" class="shop-tab-content" style="display: none;">
+                <div class="shop-grid">
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Soft Mittens</strong><br><small>+1 Click Power</small></div>
+                        <div class="upgrade-action"><span id="mittens-cost">25</span> PP<br><small>Owned: <span id="mittens-count">0</span></small><button onclick="buyClickUpgrade('mittens')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Gloved Hands</strong><br><small>+5 Click Power</small></div>
+                        <div class="upgrade-action"><span id="gloves-cost">150</span> PP<br><small>Owned: <span id="gloves-count">0</span></small><button onclick="buyClickUpgrade('gloves')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Cat Scratch Glove</strong><br><small>+15 Click Power</small></div>
+                        <div class="upgrade-action"><span id="scratch-cost">750</span> PP<br><small>Owned: <span id="scratch-count">0</span></small><button onclick="buyClickUpgrade('scratch')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Golden Paw</strong><br><small>+50 Click Power</small></div>
+                        <div class="upgrade-action"><span id="goldenpaw-cost">3000</span> PP<br><small>Owned: <span id="goldenpaw-count">0</span></small><button onclick="buyClickUpgrade('goldenpaw')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Diamond Claws</strong><br><small>+200 Click Power</small></div>
+                        <div class="upgrade-action"><span id="diamond-cost">15000</span> PP<br><small>Owned: <span id="diamond-count">0</span></small><button onclick="buyClickUpgrade('diamond')">Buy</button></div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-info"><strong>Celestial Gauntlet</strong><br><small>+1000 Click Power</small></div>
+                        <div class="upgrade-action"><span id="gauntlet-cost">75000</span> PP<br><small>Owned: <span id="gauntlet-count">0</span></small><button onclick="buyClickUpgrade('gauntlet')">Buy</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Shard Bazaar -->
+            <div id="tab-shards" class="shop-tab-content" style="display: none;">
+                <div class="shard-shop-desc">
+                    <p>Spend rare 💎 <strong>Gato Shards</strong> earned from Prestiges on exclusive perks & themes!</p>
+                </div>
+                <div class="shop-grid">
+                    <div class="upgrade-card shard-card">
+                        <div class="upgrade-info"><strong>Midnight Velvet Theme</strong><br><small>Unlock a luxurious dark purple background theme</small></div>
+                        <div class="upgrade-action"><span>5 💎</span><button id="btn-theme-midnight" onclick="buyShardUpgrade('themeMidnight')">Unlock</button></div>
+                    </div>
+                    <div class="upgrade-card shard-card">
+                        <div class="upgrade-info"><strong>Laser Synth Sound Pack</strong><br><small>Unlocks futuristic sci-fi laser sound effects on click</small></div>
+                        <div class="upgrade-action"><span>3 💎</span><button id="btn-sound-synth" onclick="buyShardUpgrade('soundSynth')">Unlock</button></div>
+                    </div>
+                    <div class="upgrade-card shard-card">
+                        <div class="upgrade-info"><strong>Golden Whisker Aura</strong><br><small>Permanent +100% global passive PPS boost</small></div>
+                        <div class="upgrade-action"><span>10 💎</span><button id="btn-perk-aura" onclick="buyShardUpgrade('perkAura')">Unlock</button></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Daily Calendar Modal -->
+    <div id="calendar-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal('calendar-modal')">&times;</span>
+            <h2>📅 Daily Reward Calendar</h2>
+            <p style="font-size: 0.85rem; color: #555; text-align: center;">Come back every 24 hours to claim your reward!</p>
+            <div id="calendar-status" class="rebirth-status-box" style="text-align: center; margin: 15px 0;">Checking reward availability...</div>
+            <button id="claim-calendar-btn" class="action-main-btn" onclick="claimDailyReward()">Claim Daily Reward</button>
+        </div>
+    </div>
+
+    <!-- Booster Shop Modal -->
+    <div id="booster-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal('booster-modal')">&times;</span>
+            <h2>🧪 Booster Shop</h2>
+            <div class="booster-list">
+                <div class="upgrade-item">
+                    <div><span>🐟 Fish Treat</span><br><small>2x Click Power for 30s</small></div>
+                    <div><span>200 PP</span> <button onclick="buyBooster('fish')">Buy</button></div>
+                </div>
+                <div class="upgrade-item">
+                    <div><span>🌿 Catnip Elixir</span><br><small>2x Idle PPS for 30s</small></div>
+                    <div><span>500 PP</span> <button onclick="buyBooster('elixir')">Buy</button></div>
+                </div>
+                <div class="upgrade-item">
+                    <div><span>👑 Royal Feast</span><br><small>3x Click & PPS for 20s</small></div>
+                    <div><span>2000 PP</span> <button onclick="buyBooster('feast')">Buy</button></div>
+                </div>
+                <div class="upgrade-item" style="border: 2px solid #ffd32a; background: #fffbe8;">
+                    <div><span>🍔 Cheeseburger</span><br><small><strong>5x</strong> Click & PPS for 30s!</small></div>
+                    <div><span>10000 PP</span> <button style="background: #ffb142;" onclick="buyBooster('burger')">Buy</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rebirth & Prestige Modal -->
+    <div id="rebirth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal('rebirth-modal')">&times;</span>
+            <h2>✨ Rebirth & Prestige</h2>
+            <div class="rebirth-status-box">
+                <p>Current Rebirths: <strong id="modal-rebirth-count">0</strong> / <span id="modal-max-rebirth">5</span></p>
+                <p>Global Multiplier Bonus: <strong id="modal-multiplier">1.0x</strong></p>
+                <p>Current Rebirth Cost: <strong id="rebirth-cost-display">10,000</strong> PP</p>
+                <p>Total Prestiges: <strong id="prestige-count-display">0</strong> | Gato Shards: <strong id="modal-shard-count">0</strong> 💎</p>
+            </div>
+            <div class="rebirth-actions">
+                <button id="rebirth-btn" class="action-main-btn" onclick="triggerRebirth()">Perform Rebirth</button>
+                <button id="prestige-btn" class="action-prestige-btn" onclick="triggerPrestige()" disabled>Perform Prestige (+1 💎)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide & Update Log Modal -->
+    <div id="guide-modal" class="modal">
+        <div class="modal-content wide-modal">
+            <span class="close-btn" onclick="toggleModal('guide-modal')">&times;</span>
+            <h2>📖 Guide & Update Log</h2>
+            
+            <div class="guide-section">
+                <h3>🎮 How to Play</h3>
+                <ul class="guide-list">
+                    <li><strong>Pet the Cat:</strong> Click the cat to earn Purr Points (PP).</li>
+                    <li><strong>Buy Upgrades:</strong> Visit Miga's Shop to buy Idle PPS (passive income) and Click Power upgrades.</li>
+                    <li><strong>Rebirth & Prestige:</strong> Once you hit milestones, perform Rebirths to multiply your earnings and collect rare Gato Shards!</li>
+                </ul>
+            </div>
+
+            <div class="guide-section">
+                <h3>📜 Update Log (v1.0)</h3>
+                <ul class="guide-list">
+                    <li>✨ Initial release of Cat Petting Simulator!</li>
+                    <li>🛍️ Remodeled Miga's Shop with clean tabbed cards.</li>
+                    <li>💎 Added Shard Bazaar, Boosters, and Daily Calendars.</li>
+                </ul>
+            </div>
+
+            <div class="protip-box">
+                <strong>💡 Pro Tip:</strong>
+                <p id="protip-text">Loading random tip...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal (v1.1 Teaser) -->
+    <div id="coming-soon-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal('coming-soon-modal')">&times;</span>
+            <h2>🚀 Version 1.1 Preview</h2>
+            <div class="rebirth-status-box" style="text-align: center;">
+                <p style="font-size: 1.1rem; color: #0984e3; font-weight: bold;">Coming Soon!</p>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #636e72;">We are cooking up something special for the next update. Here is a sneak peek at what's planned:</p>
+                <ul style="text-align: left; margin: 15px 0 0 20px; font-size: 0.85rem; color: #2d3436; line-height: 1.5;">
+                    <li>🐾 Customizable Cat Breeds & Skins</li>
+                    <li>🏆 More Achievements & Milestone Rewards</li>
+                    <li>🐱 Minigames with Miga</li>
+                </ul>
+            </div>
+            <button class="action-main-btn" onclick="toggleModal('coming-soon-modal')">Can't Wait!</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal('settings-modal')">&times;</span>
+            <h2>Settings & Stats</h2>
+            
+            <div class="settings-section">
+                <h3>📊 Player Stats</h3>
+                <button class="action-main-btn" onclick="toggleModal('stats-modal')">Open Stats & Profile</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>🏆 Achievements & Rewards</h3>
+                <div id="achievement-list" class="achievement-grid">None yet! Start petting.</div>
+            </div>
+
+            <div class="settings-section">
+                <h3>🎨 Theme Colors</h3>
+                <div class="theme-buttons">
+                    <button class="theme-btn" style="background:#74b9ff;" onclick="setTheme('blue')"></button>
+                    <button class="theme-btn" style="background:#55efc4;" onclick="setTheme('green')"></button>
+                    <button class="theme-btn" style="background:#ff7675;" onclick="setTheme('red')"></button>
+                    <button class="theme-btn" style="background:#ffeaa7;" onclick="setTheme('yellow')"></button>
+                    <button class="theme-btn" style="background:#fd79a8;" onclick="setTheme('pink')"></button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>🎵 Sound Effects</h3>
+                <div class="volume-control">
+                    <label for="sfx-slider">SFX Vol:</label>
+                    <input type="range" id="sfx-slider" min="0" max="1" step="0.05" value="0.7" onchange="changeSFXVolume(this.value)">
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <button class="reset-btn" onclick="resetGame()">Reset Progress</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats & Profile Customization Modal -->
+    <div id="stats-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal('stats-modal')">&times;</span>
+            <h2>👤 Player Stats & Profile</h2>
+            <div class="settings-section">
+                <h3>Customize Name</h3>
+                <div class="name-edit-box">
+                    <input type="text" id="player-name-input" placeholder="Enter your name..." maxlength="20">
+                    <button class="action-main-btn" onclick="savePlayerName()" style="padding: 10px 15px; margin-top: 8px;">Save Name</button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>Career Overview</h3>
+                <div class="rebirth-status-box" style="text-align: left;">
+                    <p>Total Clicks: <strong id="stat-total-clicks">0</strong></p>
+                    <p>Lifetime Purr Points: <strong id="stat-lifetime-score">0</strong></p>
+                    <p>Total Rebirths: <strong id="stat-rebirths">0</strong></p>
+                    <p>Total Prestiges: <strong id="stat-prestiges">0</strong></p>
+                    <p>Gato Shards: <strong id="stat-shards">0</strong> 💎</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
