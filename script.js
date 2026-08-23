@@ -364,27 +364,3 @@ function updateDisplay() {
         prestigeBtn.classList.remove('active-prestige');
     }
 }
-
-// Passive PPS Loop
-setInterval(() => {
-    if (pps > 0) {
-        let earned = pps / 10;
-        score += earned;
-        lifetimeScore += earned;
-        updateDisplay();
-    }
- document.addEventListener("click", function(event) {
-    if (event.target && event.target.id === "open-credits-btn") {
-        const modal = document.getElementById("credits-modal");
-        if (modal) {
-            modal.style.display = "block";
-        }
-    }
-});
-
-function closeCreditsModal() {
-    const modal = document.getElementById("credits-modal");
-    if (modal) {
-        modal.style.display = "none";
-    }
-}
