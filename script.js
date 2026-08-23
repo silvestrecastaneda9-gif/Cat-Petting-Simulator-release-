@@ -39,11 +39,11 @@ const shardUpgrades = {
 
 // Miga's Greetings
 const migaGreetings = [
-    "Welcome to my shop, human! Got fish?",
-    "Need more click power? I've got just the thing!",
-    "Purr points looking low? Invest in a feather toy!",
-    "Shards are rare, so spend them wisely!",
-    "Ah, a valued customer! Take your time browsing."
+    "Hey You, Yeah you, Give me Your Meows",
+    "Just hurry up and stop wasting my sweet time!",
+    "Dont you dare eat me up!",
+    "Shards are rare,thats pretty much it!",
+    "Music Is Fire Bro."
 ];
 
 // Random Pro Tips for Guide Modal
