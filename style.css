@@ -541,14 +541,5 @@ h1 {
     cursor: pointer;
     font-size: 0.85rem;
 }
-/* Left-side button container styling */
-.left-menu-container {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 100;
-}
+
 
