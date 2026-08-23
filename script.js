@@ -373,20 +373,18 @@ setInterval(() => {
         lifetimeScore += earned;
         updateDisplay();
     }
-    // Safe Credits Modal Handler
-document.addEventListener("DOMContentLoaded", () => {
-    const openCreditsBtn = document.getElementById("open-credits-btn");
-    const creditsModal = document.getElementById("credits-modal");
-
-    if (openCreditsBtn && creditsModal) {
-        openCreditsBtn.addEventListener("click", () => {
-            creditsModal.style.display = "block";
-        });
+ document.addEventListener("click", function(event) {
+    if (event.target && event.target.id === "open-credits-btn") {
+        const modal = document.getElementById("credits-modal");
+        if (modal) {
+            modal.style.display = "block";
+        }
     }
 });
 
 function closeCreditsModal() {
-    const creditsModal = document.getElementById("credits-modal");
-    if (creditsModal) {
-        creditsModal.style.display = "none";
+    const modal = document.getElementById("credits-modal");
+    if (modal) {
+        modal.style.display = "none";
     }
+}
