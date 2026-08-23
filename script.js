@@ -383,5 +383,20 @@ if (openCreditsBtn && creditsModal) {
         creditsModal.style.display = "block";
     });
 }
+const openCreditsBtn = document.getElementById("open-credits-btn");
+const creditsModal = document.getElementById("credits-modal");
+
+if (openCreditsBtn && creditsModal) {
+    openCreditsBtn.addEventListener("click", () => {
+        creditsModal.style.display = "block";
+    });
+}
+
+function closeCreditsModal() {
+    if (creditsModal) {
+        creditsModal.style.display = "none";
+    }
+}
+
 
 
